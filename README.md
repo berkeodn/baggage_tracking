@@ -12,7 +12,6 @@ This project is a comprehensive **baggage tracking and monitoring system** built
 5. [Streamlit Dashboard](#streamlit-dashboard)
 6. [Database Schema](#database-schema)
 7. [Project Structure](#project-structure)
-8. [License](#license)
 
 ---
 
