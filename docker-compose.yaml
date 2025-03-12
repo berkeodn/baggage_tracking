@@ -59,6 +59,7 @@ services:
       POSTGRES_USER: your_pg_user  # Set your PostgreSQL username
       POSTGRES_PASSWORD: your_pg_password  # Set your PostgreSQL password
       POSTGRES_DB: baggage_tracking  # Set your PostgreSQL database name
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"  # Expose port 5432 for PostgreSQL
     volumes:
