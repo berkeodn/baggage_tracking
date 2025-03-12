@@ -1,0 +1,8 @@
+kafka-python
+faker
+pytz
+psycopg2
+python-dotenv
+SQLAlchemy
+streamlit
+plotly

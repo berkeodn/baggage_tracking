@@ -1,0 +1,86 @@
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    networks:
+      - app-tier
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://kafka:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "kafka:9092"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+
+  producer:
+    build: .
+    container_name: producer
+    networks:
+      - app-tier
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      - KAFKA_BROKER=kafka:9092
+
+  consumer:
+    build: .  # Build the consumer container from the current directory
+    container_name: consumer
+    networks:
+      - app-tier
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - PG_USER=your_pg_user
+      - PG_PASSWORD=your_pg_password
+      - KAFKA_BROKER=kafka:9092
+    command: ["python", "kafka_consumer.py"]  # Run the consumer script
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    networks:
+      - app-tier
+    environment:
+      POSTGRES_USER: your_pg_user  # Set your PostgreSQL username
+      POSTGRES_PASSWORD: your_pg_password  # Set your PostgreSQL password
+      POSTGRES_DB: baggage_tracking  # Set your PostgreSQL database name
+    ports:
+      - "5432:5432"  # Expose port 5432 for PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist data in case container restarts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d baggage_tracking"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin-1
+    networks:
+      - app-tier
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Set the default pgAdmin admin email
+      PGADMIN_DEFAULT_PASSWORD: admin  # Set the default pgAdmin admin password
+    ports:
+      - "80:80"  # Expose pgAdmin UI on port 80
+    depends_on:
+      - postgres  # Ensure PostgreSQL is up before pgAdmin starts
+
+volumes:
+  postgres_data:
