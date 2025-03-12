@@ -48,7 +48,8 @@ Before you begin, ensure you have the following installed:
 
 - Docker (with Docker Compose)
 - Python (for running the Streamlit app)
-- PostgreSQL (if not using Docker)
+- PostgreSQL
+- Apache Kafka
 
 ### Step 1: Clone the Repository
 
