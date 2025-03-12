@@ -56,8 +56,8 @@ Before you begin, ensure you have the following installed:
 Clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/baggage-tracking.git
-cd baggage-tracking
+git clone [https://github.com/berkeodn/baggage_tracking.git]
+cd baggage_tracking
 ```
 
 ### Step 2: Set Up the Environment Variables
@@ -95,7 +95,7 @@ This will start all the necessary services (PostgreSQL, Kafka, producer, consume
 
 The `docker-compose.yml` file defines the following services:
 
-1. **Kafka**: Used for managing the real-time data flow of baggage events.
+1. **Kafka**: Used for managing the real-time data flow of fake baggage events.
 2. **PostgreSQL**: Database that stores baggage tracking information.
 3. **Producer**: Sends real-time baggage data into the Kafka queue.
 4. **Consumer**: Processes messages from Kafka and inserts data into PostgreSQL.
@@ -134,17 +134,17 @@ The Streamlit dashboard visualizes the baggage tracking data and provides insigh
 
 The PostgreSQL database contains the following tables:
 
-1. **baggage_tracking**: Stores information about baggage items.
+1. **baggage_tracking**: Stores information about baggage items. Note: Data in this table are all fake.
    - `baggage_id`: Unique identifier for baggage.
    - `status`: Current status of the baggage (e.g., delayed, lost).
-   - `scanner_location`: Location where the baggage was scanned.
+   - `passenger_id`: Unique identifier for passenger.
    - `airport_code`: Code of the airport.
    - `flight_number`: Flight number associated with the baggage.
    - `date`: Date of tracking.
    - `time`: Time of tracking.
    - `scanner_location`: Physical location of the scanner.
 
-2. **airport_locations**: Stores airport information.
+2. **airport_locations**: Stores airport information. Note: You need to run get_airport_loc.py to get this table in Postgres.
    - `iata_code`: IATA airport code.
    - `airport_name`: Name of the airport.
    - `latitude`: Latitude of the airport.
@@ -159,16 +159,13 @@ Here’s a high-level overview of the project structure:
 ```
 baggage-tracking/
 │
-├── docker-compose.yml         # Docker Compose configuration for services
-├── .env                       # Environment variables for the project
-├── app/
-│   ├── streamlit_dashboard.py  # Streamlit dashboard app
-│   ├── requirements.txt       # Python dependencies for Streamlit app
-│   ├── kafka_consumer.py      # Kafka consumer for processing messages
-│   └── kafka_producer.py      # Kafka producer for sending messages
+│   ├── docker-compose.yml       # Docker Compose configuration for services
+│   ├── .env                     # Environment variables for the project
+│   ├── baggage_dashboard.py     # Streamlit dashboard app
+│   ├── requirements.txt         # Python dependencies
+│   ├── kafka_consumer.py        # Kafka consumer for processing messages
+│   ├── kafka_producer.py        # Kafka producer for sending messages
+│   ├── get_airport_loc.py       # Script to get airport data from AviationStack API and insert it to Postgres
+│   ├── README.md                # Project documentation
 │
-├── data/                      # Sample data (if applicable)
-│   └── baggage_tracking.csv   # Sample data for testing
-│
-└── README.md                  # Project documentation
 ```
