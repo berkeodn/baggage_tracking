@@ -14,7 +14,7 @@ load_dotenv()
 @st.cache_resource
 def get_engine():
     return create_engine(
-        f"postgresql://{st.secrets['PG_USER']}:{st.secrets['PG_PASSWORD']}@{st.secrets['PG_HOST']}:{st.secrets['PG_PORT']}/{st.secrets['PG_DATABASE']}"
+            f"postgresql://{st.secrets['PG_USER']}:{st.secrets['PG_PASSWORD']}@{st.secrets['PG_HOST']}:{int(st.secrets['PG_PORT'])}/{st.secrets['PG_DATABASE']}"
     )
 
 # Query Execution Function
