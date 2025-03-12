@@ -14,7 +14,7 @@ load_dotenv()
 @st.cache_resource
 def get_engine():
     return create_engine(
-        f"postgresql+psycopg2://{os.getenv('PG_USER')}:{os.getenv('PG_PASSWORD')}@{os.getenv('PG_HOST')}:{os.getenv('PG_PORT')}/{os.getenv('PG_DATABASE')}"
+        f"postgresql+psycopg2://{st.secrets['PG_USER']}:{st.secrets['PG_PASSWORD']}@{st.secrets['PG_HOST']}:{st.secrets['PG_PORT']}/{st.secrets['PG_DATABASE']}"
     )
 
 # Query Execution Function
