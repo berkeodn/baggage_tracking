@@ -31,7 +31,7 @@ The system integrates with a **PostgreSQL database** for storing baggage data, a
 
 - **Docker**: Used for containerizing all the services.
 - **PostgreSQL**: Database for storing baggage tracking data.
-- **Kafka**: Message broker for real-time baggage event processing.
+- **Apache Kafka**: Message broker for real-time baggage event processing.
 - **Streamlit**: Python framework used for building the interactive dashboard.
 - **Plotly**: Visualization library for generating interactive plots.
 - **SQLAlchemy**: ORM used to interact with PostgreSQL.
