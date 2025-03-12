@@ -83,5 +83,22 @@ services:
     depends_on:
       - postgres  # Ensure PostgreSQL is up before pgAdmin starts
 
+  streamlit:
+    build: .
+    container_name: streamlit-app
+    networks:
+      - app-tier
+    ports:
+      - "8501:8501"  # Expose Streamlit on port 8501
+    depends_on:
+      - postgres
+    environment:
+      - PG_USER=your_pg_user
+      - PG_PASSWORD=your_pg_password
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_DATABASE=baggage_tracking
+    command: ["streamlit", "run", "baggage_dashboard.py"] 
+
 volumes:
   postgres_data:
