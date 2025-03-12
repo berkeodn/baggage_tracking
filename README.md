@@ -1,7 +1,7 @@
 
 # Baggage Tracking and Monitoring System
 
-This project is a comprehensive **baggage tracking and monitoring system** built using Docker, PostgreSQL, Streamlit, and Plotly. The application tracks baggage status, provides insights into delayed or lost baggage, and visualizes the data on interactive dashboards.
+This project is a comprehensive **baggage tracking and monitoring system** built using Docker, Kafka, PostgreSQL, Streamlit, and Plotly. The application tracks baggage status, provides insights into delayed or lost baggage, and visualizes the data on interactive dashboards.
 
 ## Table of Contents
 
